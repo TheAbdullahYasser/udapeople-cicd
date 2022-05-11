@@ -1,6 +1,6 @@
 version: 2.1
 
- commands:
+commands:
     install_awscli:
       description: Install Aws CLi v2
       steps:
