@@ -20,6 +20,13 @@ commands:
               sudo apt install software-properties-common -y
               sudo add-apt-repository --yes --update ppa:ansible/ansible
               sudo apt install ansible -y
+    install_pm2:
+      description: installing pm2
+      steps:
+        - run:
+            name: Install pm2
+            command: |
+              npm install pm2 -g
     install_nodejs:
       description: Install Node.js 13
       steps:
@@ -201,6 +208,7 @@ jobs:
       - checkout
       - install_awscli
       - install_ansible
+      - install_pm2
       - add_ssh_keys:
           fingerprints: ["c6:73:a0:37:91:e8:fd:bc:30:12:4f:d1:d5:2d:bb:55"]
       - attach_workspace:
