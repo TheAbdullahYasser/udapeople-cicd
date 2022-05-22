@@ -17,9 +17,17 @@ commands:
             name: Install Ansible v2
             command: |
               sudo apt update
-              sudo apt install software-properties-common
+              sudo apt install software-properties-common -y
               sudo add-apt-repository --yes --update ppa:ansible/ansible
-              sudo apt install ansible
+              sudo apt install ansible -y
+    install_nodejs:
+      description: Install Node.js 13
+      steps:
+        - run:
+            name: Install Node.js 13
+            command: |
+              curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -    
+              sudo apt install -y nodejs      
     delete-environment:
       description: Delete back-end and front-end cloudformation
       parameters:
@@ -49,10 +57,9 @@ commands:
               SUCCESS = $(curl --insecure https://kvdb.io/${KVDB_BUCKET}/migration_<< parameters.Workflow_ID >>)
               if(( $SUCCESS== "1" )); 
               then
-              #  cd ~/project/backend
-              #  npm install
-              #  Add revert code here. You can find this in the Getting Started section.
-                exit 1
+                cd ~/project/backend
+                npm install
+                npm run migration:revert
               fi
             
 jobs:
@@ -345,7 +352,7 @@ workflows:
             branches:
               only: [master]
       - configure-infrastructure:
-           requires: [deploy-infrastructure]
+          requires: [deploy-infrastructure]
       - run-migrations:
           requires: [configure-infrastructure]
       # - deploy-frontend:
