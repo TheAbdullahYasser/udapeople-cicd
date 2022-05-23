@@ -236,7 +236,7 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            npm cache delete
+            npm cache clean
             npm install
             npm audit fix --force --audit-level=critical
             npm audit fix --force --audit-level=critical 
